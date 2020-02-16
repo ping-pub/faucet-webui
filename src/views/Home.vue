@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <header class="nav">
-      <img src="/img/kava-logo.svg" class="logo" />
+      <img src="/img/logo.jpeg" class="logo"/>
     </header>
-
+    <h2>Cosmos-based Blockchain Testnet Faucet</h2>
     <input
       v-model="address"
       type="text"
       class="address-input"
       name="address"
-      placeholder="Kava Address"
+      placeholder="Cosmos Wallet Address"
     />
 
     <button class="btn-token" @click="fetchForm">Request Tokens</button>
@@ -18,20 +18,39 @@
 
 <script>
 import axios from "axios";
+import blockchain from 'irisnet-crypto';
+
+const config = {
+  mnemonic: "vacuum bulb infant decade shy plunge snow sorry champion book soldier fuel orient loan drill stairs island tape gain speed elder field together bitter",
+  language: 'english',
+  account_number: '1',
+  account: null,
+};
 
 export default {
   data() {
     return {
       address: ""
+      
     };
   },
+  mounted: function() {
+    this.initAccount();
+  },
   methods: {
+    initAccount(){
+      let crypto = blockchain.getCrypto('cosmos');
+      config.account = crypto.recover(config.mnemonic, config.language );
+      console.log(config);
+    },
     fetchForm() {
+
       const address = this.address;
       if (!address) {
         alert("Please input address.");
         return;
       }
+      
       console.log(address);
       axios.request({
         method: "POST",
@@ -62,10 +81,10 @@ export default {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  text-align: center;
 }
 .logo {
-  margin: 30px;
-  height: 40px;
+  width: 250px;
 }
 .coin-logo {
   width: 1.7em;
