@@ -5,7 +5,7 @@
     </header>
 
     <input
-      v-model="token"
+      v-model="address"
       type="text"
       class="address-input"
       name="address"
@@ -22,14 +22,28 @@ import axios from "axios";
 export default {
   data() {
     return {
-      token: ""
+      address: ""
     };
   },
   methods: {
     fetchForm() {
-      const token = this.token;
-      if (!token) return;
-      console.log(token);
+      const address = this.address;
+      if (!address) {
+        alert("Please input address.");
+        return;
+      }
+      console.log(address);
+      axios.request({
+        method: "POST",
+        baseURL: "/api",
+        url: "/", // 在这配置接口路径
+        params: { // 地址栏参数
+          address
+        },
+        headers: {
+          server: "http://13.125.71.131:26657" // 配置代理的主域
+        }
+      });
     }
   }
 };
