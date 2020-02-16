@@ -1,5 +1,5 @@
 {
-  "name": "kava-faucet",
+  "name": "cosmos-faucet-webui",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "irisnet-crypto": "git+https://github.com/irisnet/irisnet-crypto.git",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"

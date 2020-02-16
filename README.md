@@ -1,7 +1,7 @@
-# kava-faucet
+# Cosmos Faucet WebUI
 
 ## Project setup
-```
+```npm
 npm install
 ```
 
