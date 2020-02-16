@@ -40,6 +40,9 @@ export default {
         params: { // 地址栏参数
           address
         },
+        data: {
+          address
+        },
         headers: {
           server: "http://13.125.71.131:26657" // 配置代理的主域
         }
