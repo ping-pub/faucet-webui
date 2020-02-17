@@ -23,8 +23,8 @@ import blockchain from 'irisnet-crypto';
 const config = {
   mnemonic: "vacuum bulb infant decade shy plunge snow sorry champion book soldier fuel orient loan drill stairs island tape gain speed elder field together bitter",
   language: 'english',
-  account_number: '1',
   account: null,
+  network: "test"
 };
 
 export default {
@@ -44,28 +44,51 @@ export default {
       console.log(config);
     },
     fetchForm() {
-
       const address = this.address;
       if (!address) {
         alert("Please input address.");
         return;
       }
+
+      axios
+        .get('/api/auth/accounts/'+config.account.address)
+        .then(function(res) {
+          let accInfo = res.data.result;
+          console.log(accInfo);
+
+          let tx = {
+              "base_req": {
+                "from": config.account.address,
+                "memo": "Sent from Cosmos Faucet Module - Powered by ping.pub",
+                "chain_id": config.network,
+                "account_number": String(accInfo.value.account_number),
+                "sequence": String(accInfo.value.sequence),
+                "gas": "200000",
+                "gas_adjustment": "1.2",
+                "fees": [], // [{"denom": "stake", "amount": "50"}]
+                "simulate": false
+              },
+              "minter": address,
+            }
+
+            console.log(tx);
+
+          axios.request({
+            method: "POST",
+            baseURL: "/api",
+            url: '/faucet/mint', // 在这配置接口路径
+            params: { 
+            },
+            data: JSON.stringify(tx),
+            headers: {
+              server: "http://localhost:1317" // 配置代理的主域
+            }
+          }).then(function(ret){
+            config.log(ret)
+          });
+        
+      })
       
-      console.log(address);
-      axios.request({
-        method: "POST",
-        baseURL: "/api",
-        url: "/", // 在这配置接口路径
-        params: { // 地址栏参数
-          address
-        },
-        data: {
-          address
-        },
-        headers: {
-          server: "http://13.125.71.131:26657" // 配置代理的主域
-        }
-      });
     }
   }
 };

@@ -6,7 +6,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://lcd.nylira.net',
+        target: 'http://localhost:1317',
         changeOrigin: true,
         pathRewrite: { ['^/api']: '' },
         router: function (req) {
